@@ -30,6 +30,15 @@ class ProductoModel extends DB{
         
         return $productos;
     }
+    public function getProductPerPage($limit){
+        $query = $this->connect()->prepare("SELECT * FROM productos LIMIT ?");
+        $query->bindValue(1, $limit, PDO::PARAM_INT);
+    
+        $query->execute();
+        $productos = $query->fetchAll(PDO::FETCH_OBJ);
+        return $productos;
+
+    }
    
 
 

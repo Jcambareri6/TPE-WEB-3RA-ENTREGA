@@ -9,6 +9,7 @@ $router = new Router();
 $router->addRoute('productos', 'GET', 'productosController', 'getProducts');
  $router->addRoute('productos/:ID', 'GET', 'productosController', 'getProduct');
 $router->addRoute("productos/Condicion/:CONDICION",'GET','productosController','getProductByCondicion');
+$router->addRoute("productos/porpagina/:limit", 'GET', 'productosController', 'getProductPaginados');
 $router->addRoute('productos/:ID', 'DELETE', 'productosController', 'deleteProduct');
 $router->addRoute('productos', 'POST', 'productosController', 'GuardarProducto');
 

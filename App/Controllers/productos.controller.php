@@ -36,6 +36,18 @@ class productosController {
             //s
             $this->view->response("el producto con el id=$id no existe", 404);
      }
+     public function getProductPaginados($params=null){
+       
+        $limit = isset($params[':limit']) ? intval($params[':limit']) : 10;
+        $productos = $this->model->getProductPerPage($limit);
+        if (count($productos)>=$limit)
+        $this->view->response($productos);
+    else{
+        $this->view->response("no existen tantos registros",404);
+    }
+          
+
+     }
      public function getProductByCondicion($params = null) { // opcional
         // obtengo el id del arreglo de params
         $Condicion = $params[':CONDICION'];
