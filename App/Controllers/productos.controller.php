@@ -34,8 +34,19 @@ class productosController {
              $this->view->response($producto);
         else 
             //s
-            $this->view->response("La tarea con el id=$id no existe", 404);
+            $this->view->response("el producto con el id=$id no existe", 404);
      }
+     public function getProductByCondicion($params = null) { // opcional
+        // obtengo el id del arreglo de params
+        $Condicion = $params[':CONDICION'];
+       $producto = $this->model->filtrarXCondicion($Condicion);
+
+        if ($producto)
+            $this->view->response($producto);
+       else 
+           //s
+           $this->view->response("los productos por  con  Condicion $Condicion no existe", 404);
+    }
 
      public function deleteProduct($params = null) {
         $id = $params[':ID'];
@@ -49,16 +60,16 @@ class productosController {
         }
     
 
-    // public function insertTask($params = null) {
-    //     $task = $this->getData();
-
-    //     if (empty($task->titulo) || empty($task->descripcion) || empty($task->prioridad)) {
-    //         $this->view->response("Complete los datos", 400);
-    //     } else {
-    //         $id = $this->model->insert($task->titulo, $task->descripcion, $task->prioridad);
-    //         $task = $this->model->get($id);
-    //         $this->view->response($task, 201);
-    //     }
-    // }
+     public function GuardarProducto($params = null) {
+         $product = $this->getData();
+        
+         if (empty($product->NombreProducto) || empty($product->Descripcion) || empty($product->Precio)|| empty($product->Stock)|| empty($product->IDmarca) || empty($product->Condicion)) {
+             $this->view->response("Complete los datos", 400);
+         } else {
+             $id = $this->model->insertProduct($product->NombreProducto, $product->Descripcion, $product->Precio,$product->Stock,$product->IDmarca,$product->Condicion);
+            $producto = $this->model->getProduct($id);
+            $this->view->response($product, 201);
+        }
+     }
 
 }

@@ -17,6 +17,24 @@ class ProductoModel extends DB{
         $query = $this->connect()->prepare('DELETE FROM productos WHERE productoID = ?');
         $query->execute([$id]);
     }
+    public function insertProduct($NombreProducto, $Descripcion, $Precio, $Stock, $IDmarca, $Condicion){
+        $query = $this->connect()->prepare('INSERT INTO  productos ( NombreProducto, Descripcion, Precio, Stock, IDmarca, Condicion) VALUES (?,?,?,?,?,?)');
+        $query->execute([$NombreProducto, $Descripcion, $Precio, $Stock, $IDmarca, $Condicion]);
+        return $this->connect()->lastInsertId();
+
+    }
+    public function filtrarxCondicion($id) {
+        $query = $this->connect()->prepare("SELECT * FROM Productos WHERE Condicion = ?");
+        $query->execute([$id]);
+        $productos = $query->fetchAll(PDO::FETCH_OBJ);
+        
+        return $productos;
+    }
+   
+
+
+
+    
 
 
 }
