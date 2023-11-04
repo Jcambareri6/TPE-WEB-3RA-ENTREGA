@@ -7,19 +7,24 @@ class ProductoModel extends DB{
         //} 
         $sql = 'SELECT * FROM productos';
         //ordenado por campo
-        if(isset( $parametrosGet['order'])){
-            $sql.=' ORDER BY '.$parametrosGet['order']  ;
-           
+        
+        if(!empty($parametrosGet)){
+            switch ($parametrosGet){
+                case isset($parametrosGet['order']) :
+                 $sql.=' ORDER BY '.$parametrosGet['order']  ; 
+                 break;
+                 case isset($parametrosGet['Condicion']) :
+                    $sql.=' WHERE '.$parametrosGet['Condicion']  ; ; 
+                 break;
+                }
         }
+      
         //filtro
-        if(isset( $parametrosGet['Condicion'])){
-            $sql.=' WHERE '.$parametrosGet['Condicion']  ;
-           
-        }
+       
         $query= $this->connect()->prepare($sql);
-        $query->execute();
+        //$query->execute();
         $productos= $query->fetchAll(PDO::FETCH_OBJ);
-        return $productos;
+        return $sql;
     }
     public function getProduct($id){
         $query= $this->connect()->prepare('SELECT * FROM productos WHERE productoID=?');
