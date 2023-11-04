@@ -62,15 +62,7 @@ class productosController {
              
     }
     
-
-
     //   
-    
-   
-
-        
-        
-       
     
 
      public function getProduct($params = null) {
