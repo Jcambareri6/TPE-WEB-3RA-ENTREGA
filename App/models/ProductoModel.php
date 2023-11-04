@@ -18,5 +18,10 @@ class ProductoModel extends DB{
         $query->execute([$id]);
     }
 
+    public function updateProduct($id, $nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion){
+        $query = $this->connect()->prepare('UPDATE productos SET NombreProducto = ?, Descripcion = ?, Precio = ?, Stock = ?, IDmarca = ?, Condicion = ?, WHERE ProductoID = ?');
+        $query = execute([$nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion, $id]);
+    }
+
 
 }

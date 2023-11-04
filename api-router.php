@@ -9,6 +9,7 @@ $router = new Router();
 $router->addRoute('productos', 'GET', 'productosController', 'getProducts');
 $router->addRoute('productos/:ID', 'GET', 'productosController', 'getProduct');
 $router->addRoute('productos/:ID', 'DELETE', 'productosController', 'deleteProduct');
+$router->addRoute('productos/:ID', 'PUT', 'productosController', 'updateProduct');
 
  
 
