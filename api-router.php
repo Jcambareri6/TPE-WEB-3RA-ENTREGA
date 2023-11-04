@@ -8,10 +8,12 @@ $router = new Router();
 // defina la tabla de ruteo
 $router->addRoute('productos', 'GET', 'productosController', 'getProducts');
  $router->addRoute('productos/:ID', 'GET', 'productosController', 'getProduct');
-$router->addRoute("productos/Condicion/:CONDICION",'GET','productosController','getProductByCondicion');
-$router->addRoute("productos/porpagina/:limit", 'GET', 'productosController', 'getProductPaginados');
+
 $router->addRoute('productos/:ID', 'DELETE', 'productosController', 'deleteProduct');
 $router->addRoute('productos', 'POST', 'productosController', 'GuardarProducto');
+//extras
+$router->addRoute("productos/porpagina/:LIMIT/cantPag/:OFFSET", 'GET', 'productosController', 'getProductPaginados');
+
 
 
  

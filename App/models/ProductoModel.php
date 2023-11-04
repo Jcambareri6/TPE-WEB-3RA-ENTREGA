@@ -1,8 +1,22 @@
 <?php
 require_once './App/models/model.php';
 class ProductoModel extends DB{
-    public function getProducts(){
-        $query= $this->connect()->prepare('SELECT * FROM productos');
+    public function getProducts($params=null,$parametrosGet){
+        //SI EL PARAMS ES ASC{
+            // $sql .= ' ORDER BY ?'
+        //} 
+        $sql = 'SELECT * FROM productos';
+        //ordenado por campo
+        if(isset( $parametrosGet['order'])){
+            $sql.=' ORDER BY '.$parametrosGet['order']  ;
+           
+        }
+        //filtro
+        if(isset( $parametrosGet['Condicion'])){
+            $sql.=' WHERE '.$parametrosGet['Condicion']  ;
+           
+        }
+        $query= $this->connect()->prepare($sql);
         $query->execute();
         $productos= $query->fetchAll(PDO::FETCH_OBJ);
         return $productos;
@@ -30,9 +44,10 @@ class ProductoModel extends DB{
         
         return $productos;
     }
-    public function getProductPerPage($limit){
-        $query = $this->connect()->prepare("SELECT * FROM productos LIMIT ?");
+    public function getProductPerPage($limit, $offset){
+        $query = $this->connect()->prepare("SELECT * FROM productos LIMIT ? OFFSET ?");
         $query->bindValue(1, $limit, PDO::PARAM_INT);
+        $query->bindValue(2, $offset, PDO::PARAM_INT);
     
         $query->execute();
         $productos = $query->fetchAll(PDO::FETCH_OBJ);

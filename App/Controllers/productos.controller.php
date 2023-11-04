@@ -19,27 +19,77 @@ class productosController {
     private function getData() {
         return json_decode($this->data);
     }
+    public function GetSort(){
+        if(isset($_GET['sort'])){
+            $sort=$_GET['sort'];
+            return $sort;
+        }else{
+            return $sort='ASC';
+        }
+
+    }
+    public function setCondicion(){
+        if(isset($_GET['Condicion'])){
+            $campo=$_GET['Condicion'];
+            return $campo;
+        }
+
+    }
 
     public function getProducts($params = null) {
-        $productos = $this->model->getProducts();
-        $this->view->response($productos);
+        // ?sort=nombre&order=desc
+        // ?page=3
+        $parametrosGet=[];
+        $condicionWhere=$this->setCondicion();
+         
+        if (isset($_GET['order'])) {
+            $parametrosGet['sort'] = $this->GetSort();
+            $parametrosGet['order'] = $_GET['order'];
+        }
+        
+        if (!empty($condicionWhere)) {
+            $parametrosGet['Condicion'] = $condicionWhere;
+        }
+        
+        $productos = $this->model->getProducts($params, $parametrosGet);
+        
+        if ($productos) {
+            $this->view->response($productos);
+        } else {
+            $this->view->response("no existe", 404);
+        }
+        
+             
     }
+    
+
+
+    //   
+    
+   
+
+        
+        
+       
+    
 
      public function getProduct($params = null) {
          // obtengo el id del arreglo de params
-         $id = $params[':ID'];
-        $producto = $this->model->getProduct($id);
-
-         if ($producto)
-             $this->view->response($producto);
-        else 
-            //s
-            $this->view->response("el producto con el id=$id no existe", 404);
+         if (!empty($params[':ID'])) {
+            $id = $params[':ID'];
+            $producto = $this->model->getProduct($id);
+            if ($producto) {
+                $this->view->response($producto);
+            } else {
+                $this->view->response('El producto con el ID=' . $id . ' no existe.', 404);
+            };
      }
+    }
      public function getProductPaginados($params=null){
        
-        $limit = isset($params[':limit']) ? intval($params[':limit']) : 10;
-        $productos = $this->model->getProductPerPage($limit);
+        $limit = $params[':LIMIT'];
+        $offSet= $params[':OFFSET'];
+        $productos = $this->model->getProductPerPage($limit,$offSet);
         if (count($productos)>=$limit)
         $this->view->response($productos);
     else{
