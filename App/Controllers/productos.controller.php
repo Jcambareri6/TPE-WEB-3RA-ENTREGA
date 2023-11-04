@@ -134,4 +134,25 @@ class productosController {
         }
      }
 
+    public function actualizarProducto($params = []) {
+        $id = $params[':ID'];
+        $product = $this->model->getProduct($id);
+        if ($product){
+            $body = $this->getData();
+            $nombre = $body -> NombreProducto;
+            $descripcion = $body -> Descripcion;
+            $precio = $body -> Precio;
+            $stock = $body -> Stock;
+            $idMarca = $body -> IDmarca;
+            $condicion = $body -> Condicion;
+            $this->model->updateProduct($id, $nombre, $descripcion, $precio, $stock, $idMarca, $condicion);
+
+            $this->view->response('La tarea con id='.$id.' ha sido modificada.', 200);
+        
+
+        } else {
+            $this->view->response('La tarea con id='.$id.' no existe. ', 404);
+        }
+    }
+
 }

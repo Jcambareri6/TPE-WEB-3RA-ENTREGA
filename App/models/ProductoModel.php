@@ -59,15 +59,10 @@ class ProductoModel extends DB{
         return $productos;
 
     }
-   
-
-
-
-    
 
     public function updateProduct($id, $nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion){
-        $query = $this->connect()->prepare('UPDATE productos SET NombreProducto = ?, Descripcion = ?, Precio = ?, Stock = ?, IDmarca = ?, Condicion = ?, WHERE ProductoID = ?');
-        $query = execute([$nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion, $id]);
+        $query = $this->connect()->prepare('UPDATE productos SET NombreProducto = ?, Descripcion = ?, Precio = ?, Stock = ?,IDmarca = ?, Condicion = ? WHERE ProductoID = ?');
+        $query -> execute([$nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion, $id]);
     }
 
 
