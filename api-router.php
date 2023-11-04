@@ -10,11 +10,7 @@ $router->addRoute('productos', 'GET', 'productosController', 'getProducts');
  $router->addRoute('productos/:ID', 'GET', 'productosController', 'getProduct');
 
 $router->addRoute('productos/:ID', 'DELETE', 'productosController', 'deleteProduct');
-$router->addRoute('productos', 'POST', 'productosController', 'GuardarProducto');
-//extras
-$router->addRoute("productos/porpagina/:LIMIT/cantPag/:OFFSET", 'GET', 'productosController', 'getProductPaginados');
-
-
+$router->addRoute('productos/:ID', 'PUT', 'productosController', 'updateProduct');
 
  
 
