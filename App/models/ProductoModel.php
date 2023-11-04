@@ -22,9 +22,9 @@ class ProductoModel extends DB{
         //filtro
        
         $query= $this->connect()->prepare($sql);
-        //$query->execute();
+        $query->execute();
         $productos= $query->fetchAll(PDO::FETCH_OBJ);
-        return $sql;
+        return $productos;
     }
     public function getProduct($id){
         $query= $this->connect()->prepare('SELECT * FROM productos WHERE productoID=?');
