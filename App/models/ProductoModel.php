@@ -18,9 +18,7 @@ class ProductoModel extends DB{
                  break;
                 }
         }
-      
         //filtro
-       
         $query= $this->connect()->prepare($sql);
         $query->execute();
         $productos= $query->fetchAll(PDO::FETCH_OBJ);
