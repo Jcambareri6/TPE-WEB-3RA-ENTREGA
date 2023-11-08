@@ -19,10 +19,45 @@ class marcasController{
         return json_decode($this->data);
     }
 
-    public function getMarcas($params = []){
-        $marcas = $this->model->getMarcas();
-        return $this->view->response($marcas, 200);
+    public function getSort(){
+        if (isset($_GET['sort'])){
+            $sort = $_GET['sort'];
+            return $sort;
+        } else {
+            return $sort = 'ASC';
+        }
+
     }
+
+    public function setCondicion(){
+        if (isset($_GET['condicion'])){
+            $campo = $_GET['condicion'];
+            return $campo;
+        }
+    }
+
+
+    public function getMarcas($params = []){
+        $parametrosGet = [];
+        $condicionWhere = $this->setCondicion();
+
+        if (isset($_GET['order'])){
+            $parametrosGet['sort'] = $this->getSort();
+            $parametrosGet['order'] = $_GET['order'];
+        }
+
+        if (!empty($condicionWhere)){
+            $parametrosGet['condicion'] = $condicionWhere;
+        }
+
+        $marcas = $this->model->getMarcas($params, $parametrosGet);
+
+        if ($marcas) {
+            $this->view->response($marcas);
+        } else {
+            $this->view->response("No existe", 404)
+        }
+
 
     public function getMarca($params = []){
         if (!empty($params[':ID'])){

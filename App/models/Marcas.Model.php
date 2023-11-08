@@ -3,8 +3,19 @@
 require_once 'App/models/model.php';
 
 class MarcasModel extends DB{
-    public function getMarcas(){
-        $query = $this->connect()->prepare('SELECT * FROM marcas');
+    public function getMarcas($params=null, $parametrosGet){
+        $sql = 'SELECT * FROM marcas';
+        if (!empty($parametrosGet)){
+            switch ($parametrosGet){
+                case isset ($parametrosGet['order']):
+                    $sql.= 'ORDER BY '.$parametrosGet['order'] . " " . $parametrosGet['sort'];
+                    break;
+                case isset ($parametrosGet['Condicion']) : 
+                    $sql.= ' WHERE '.$parametrosGet['Condicion'];
+                break;
+            }
+        }
+        $query = $this->connect()->prepare($sql);
         $query->execute();
         $marcas = $query->fetchAll(PDO::FETCH_OBJ);
         return $marcas;

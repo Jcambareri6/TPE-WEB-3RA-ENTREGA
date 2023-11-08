@@ -11,10 +11,10 @@ class ProductoModel extends DB{
         if(!empty($parametrosGet)){
             switch ($parametrosGet){
                 case isset($parametrosGet['order']) :
-                 $sql.=' ORDER BY '.$parametrosGet['order']  ; 
+                 $sql.=' ORDER BY '.$parametrosGet['order'] . " ". $parametrosGet['sort'] ; 
                  break;
                  case isset($parametrosGet['Condicion']) :
-                    $sql.=' WHERE '.$parametrosGet['Condicion']  ; ; 
+                    $sql.=' WHERE '.$parametrosGet['Condicion'] ; 
                  break;
                 }
         }
