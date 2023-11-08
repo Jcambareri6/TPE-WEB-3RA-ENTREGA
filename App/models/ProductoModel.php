@@ -11,13 +11,21 @@ class ProductoModel extends DB{
         if(!empty($parametrosGet)){
             switch ($parametrosGet){
                 case isset($parametrosGet['order']) :
+<<<<<<< HEAD
                  $sql.=' ORDER BY '.$parametrosGet['order'].' '.$parametrosGet['sort'];
+=======
+                 $sql.=' ORDER BY '.$parametrosGet['order'] . " ". $parametrosGet['sort'] ; 
+>>>>>>> 780d3ddcc7989cb19f217fce49732419a1841831
                  break;
                  case isset($parametrosGet['Condicion']) :
-                    $sql.=' WHERE '.$parametrosGet['Condicion']  ; ; 
+                    $sql.=' WHERE '.$parametrosGet['Condicion'] ; 
                  break;
             }
         }
+<<<<<<< HEAD
+=======
+        //filtro
+>>>>>>> 780d3ddcc7989cb19f217fce49732419a1841831
         $query= $this->connect()->prepare($sql);
         $query->execute();
         $productos= $query->fetchAll(PDO::FETCH_OBJ);
@@ -50,10 +58,17 @@ class ProductoModel extends DB{
         return $productos;
 
     }
+<<<<<<< HEAD
    
     public function updateProduct($id, $nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion){
         $query = $this->connect()->prepare('UPDATE productos SET NombreProducto = ?, Descripcion = ?, Precio = ?, Stock = ?, IDmarca = ?, Condicion = ?, WHERE ProductoID = ?');
         $query->execute([$nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion, $id]);
+=======
+
+    public function updateProduct($id, $nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion){
+        $query = $this->connect()->prepare('UPDATE productos SET NombreProducto = ?, Descripcion = ?, Precio = ?, Stock = ?,IDmarca = ?, Condicion = ? WHERE ProductoID = ?');
+        $query -> execute([$nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion, $id]);
+>>>>>>> 780d3ddcc7989cb19f217fce49732419a1841831
     }
 
 
