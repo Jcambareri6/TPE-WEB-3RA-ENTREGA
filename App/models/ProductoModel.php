@@ -3,7 +3,7 @@ require_once './App/models/model.php';
 class ProductoModel extends DB{
     public function getProducts($params=null,$parametrosGet){
         //SI EL PARAMS ES ASC{
-            // $sql .= ' ORDER BY ?'
+            // $sql .= ' ORDER BY'
         //} 
         $sql = 'SELECT * FROM productos';
         //ordenado por campo
@@ -11,16 +11,13 @@ class ProductoModel extends DB{
         if(!empty($parametrosGet)){
             switch ($parametrosGet){
                 case isset($parametrosGet['order']) :
-                 $sql.=' ORDER BY '.$parametrosGet['order']  ; 
+                 $sql.=' ORDER BY '.$parametrosGet['order'].' '.$parametrosGet['sort'];
                  break;
                  case isset($parametrosGet['Condicion']) :
                     $sql.=' WHERE '.$parametrosGet['Condicion']  ; ; 
                  break;
-                }
+            }
         }
-      
-        //filtro
-       
         $query= $this->connect()->prepare($sql);
         $query->execute();
         $productos= $query->fetchAll(PDO::FETCH_OBJ);
@@ -42,13 +39,7 @@ class ProductoModel extends DB{
         return $this->connect()->lastInsertId();
 
     }
-    public function filtrarxCondicion($id) {
-        $query = $this->connect()->prepare("SELECT * FROM Productos WHERE Condicion = ?");
-        $query->execute([$id]);
-        $productos = $query->fetchAll(PDO::FETCH_OBJ);
-        
-        return $productos;
-    }
+    
     public function getProductPerPage($limit, $offset){
         $query = $this->connect()->prepare("SELECT * FROM productos LIMIT ? OFFSET ?");
         $query->bindValue(1, $limit, PDO::PARAM_INT);
@@ -60,14 +51,9 @@ class ProductoModel extends DB{
 
     }
    
-
-
-
-    
-
     public function updateProduct($id, $nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion){
         $query = $this->connect()->prepare('UPDATE productos SET NombreProducto = ?, Descripcion = ?, Precio = ?, Stock = ?, IDmarca = ?, Condicion = ?, WHERE ProductoID = ?');
-        $query = execute([$nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion, $id]);
+        $query->execute([$nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion, $id]);
     }
 
 

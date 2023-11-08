@@ -40,13 +40,14 @@ class productosController {
         // ?sort=nombre&order=desc
         // ?page=3
         $parametrosGet=[];
+       
         $condicionWhere=$this->setCondicion();
+        
          
-        if (isset($_GET['order'])) {
+        if (!empty($_GET['order'])) {
             $parametrosGet['sort'] = $this->GetSort();
             $parametrosGet['order'] = $_GET['order'];
-        }
-        
+        } 
         if (!empty($condicionWhere)) {
             $parametrosGet['Condicion'] = $condicionWhere;
         }
@@ -85,30 +86,11 @@ class productosController {
             };
      }
     }
-     public function getProductPaginados($params=null){
-       
-        $limit = $params[':LIMIT'];
-        $offSet= $params[':OFFSET'];
-        $productos = $this->model->getProductPerPage($limit,$offSet);
-        if (count($productos)>=$limit)
-        $this->view->response($productos);
-    else{
-        $this->view->response("no existen tantos registros",404);
-    }
+   
           
 
-     }
-     public function getProductByCondicion($params = null) { // opcional
-        // obtengo el id del arreglo de params
-        $Condicion = $params[':CONDICION'];
-       $producto = $this->model->filtrarXCondicion($Condicion);
-
-        if ($producto)
-            $this->view->response($producto);
-       else 
-           //s
-           $this->view->response("los productos por  con  Condicion $Condicion no existe", 404);
-    }
+     
+   
 
      public function deleteProduct($params = null) {
         $id = $params[':ID'];
