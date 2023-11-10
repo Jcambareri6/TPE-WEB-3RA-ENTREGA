@@ -28,31 +28,32 @@ class productosController {
         }
 
     }
-    public function setCondicion(){
-        if(isset($_GET['Condicion'])){
-            $campo=$_GET['Condicion'];
-            return $campo;
-        }
-
-    }
-
     public function getProducts($params = null) {
         // ?sort=nombre&order=desc
         // ?page=3
         $parametrosGet=[];
-       
-        $condicionWhere=$this->setCondicion();
-        
-         
-        if (!empty($_GET['order'])) {
-            $parametrosGet['sort'] = $this->GetSort();
-            $parametrosGet['order'] = $_GET['order'];
-        } 
-        if (!empty($condicionWhere)) {
-            $parametrosGet['Condicion'] = $condicionWhere;
+        $sql = 'SELECT * FROM productos';
+        //switch para determinar si existen parametros get para concatenar a la consulta
+        switch (!empty ($_GET)){
+            case isset($_GET['filterBy']):
+                $parametrosGet['filterBy'] = $_GET['filterBy'];
+                $sql.= ' WHERE '. $parametrosGet['filterBy'];
+            break;
         }
+        //consulta a lo ultimo si hay algun orden para establecer sino establece el orden por defecto del campo 
+        if (isset($_GET['order'])){
+                $parametrosGet['order']=$_GET['order'];
+                $sql .= ' ORDER BY '.$parametrosGet['order'];
+                 if (isset($sort)){
+                    $sort=$this->GetSort();
+                     $sql.=$sort;
+                }
+        }else{
+            $sql .= ' ORDER BY Precio';
+        }
+
         
-        $productos = $this->model->getProducts($params, $parametrosGet);
+        $productos = $this->model->ejecutarConsulta($sql);
         
         if ($productos) {
             $this->view->response($productos);
