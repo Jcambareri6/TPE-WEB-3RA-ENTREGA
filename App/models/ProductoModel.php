@@ -1,13 +1,31 @@
 <?php
 require_once './App/models/model.php';
 class ProductoModel extends DB{
-    public function ejecutarConsulta($sql){
-      
+    public function GetAll($parametrosGet){
+       
+         $sql = 'SELECT * FROM productos '.$parametrosGet['order'];
+         echo ($sql);
+         die(__FILE__);
         $query= $this->connect()->prepare($sql);
         $query->execute();
         $productos= $query->fetchAll(PDO::FETCH_OBJ);
         return $productos;
     }
+    public function HasColumn($Columna){
+        $query=$this->connect()->Prepare('SELECT COLUMN_NAME
+        FROM INFORMATION_SCHEMA.COLUMNS
+        WHERE TABLE_SCHEMA = ?
+        AND TABLE_NAME = ?
+        AND COLUMN_NAME = ?');
+        $query->execute([DB_NAME,'productos',$Columna]);
+        $row= $query->fetch(PDO::FETCH_OBJ);
+        // Obtener el nombre de la columna del objeto PDO
+        if ($row !== false) {
+            return  $row->COLUMN_NAME == $Columna;
+        }
+        return false;
+    }
+
     public function getProduct($id){
         $query= $this->connect()->prepare('SELECT * FROM productos WHERE productoID=?');
         $query->execute([$id]);

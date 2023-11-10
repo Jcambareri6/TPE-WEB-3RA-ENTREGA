@@ -19,42 +19,33 @@ class productosController {
     private function getData() {
         return json_decode($this->data);
     }
-    public function GetSort(){
-        if(isset($_GET['sort'])){
-            $sort=$_GET['sort'];
-            return $sort;
-        }else{
-            return $sort='ASC';
-        }
+     public function GetOrder(){
+        $sort= $this->GetSort();
+        if(!empty ($_GET['order'])){
+            $order=$_GET['order']; 
+            $order = filter_var($_GET['order']);// sanitizo el codigo
 
-    }
-    public function getProducts($params = null) {
+            if($this->model->HasColumn($order)){// aplico la funcion para  validar que el campo es correcto
+                return 'ORDER BY '.$order.' '.$sort; // aplico el sort ya que si no esta seteado es por defecto
+            }    
+        }
+        return ' ORDER BY Precio '.$sort;
+     }
+     public function GetSort(){
+        if(!empty ($_GET['sort'])){
+            $sort=$_GET['sort'];
+           return $sort;  
+        }
+        return 'DESC';  
+     }
+
+    public function getProducts() {
         // ?sort=nombre&order=desc
         // ?page=3
-        $parametrosGet=[];
-        $sql = 'SELECT * FROM productos';
-        //switch para determinar si existen parametros get para concatenar a la consulta
-        switch (!empty ($_GET)){
-            case isset($_GET['filterBy']):
-                $parametrosGet['filterBy'] = $_GET['filterBy'];
-                $sql.= ' WHERE '. $parametrosGet['filterBy'];
-            break;
-        }
+       
+        $parametrosGet['order']=$this->GetOrder();
         //consulta a lo ultimo si hay algun orden para establecer sino establece el orden por defecto del campo 
-        if (isset($_GET['order'])){
-                $parametrosGet['order']=$_GET['order'];
-                $sql .= ' ORDER BY '.$parametrosGet['order'];
-                 if (isset($sort)){
-                    $sort=$this->GetSort();
-                     $sql.=$sort;
-                }
-        }else{
-            $sql .= ' ORDER BY Precio';
-        }
-
-        
-        $productos = $this->model->ejecutarConsulta($sql);
-        
+        $productos = $this->model->GetAll($parametrosGet);
         if ($productos) {
             $this->view->response($productos);
         } else {
