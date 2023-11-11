@@ -12,6 +12,7 @@
                 $header = $_SERVER['HTTP_AUTHORIZATION'];
             if(isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']))
                 $header = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+            
             return $header;
         }
 
@@ -21,7 +22,7 @@
                 'typ' => 'JWT'
             );
             
-            $payload['exp'] = time() + JWT_EXP;
+            //s$payload['exp'] = time() + JWT_EXP;
 
             $header = base64url_encode(json_encode($header));
             $payload = base64url_encode(json_encode($payload));
@@ -41,19 +42,23 @@
             $header = $token[0];
             $payload = $token[1];
             $signature = $token[2];
+           
 
             $new_signature = hash_hmac('SHA256', "$header.$payload", JWT_KEY, true);
             $new_signature = base64url_encode($new_signature);
-
+            // var_dump($new_signature);
+            // die(__FILE__);
             if($signature!=$new_signature) {
+                echo' la firma no es valida';
                 return false;
             }
 
             $payload = json_decode(base64_decode($payload));
 
-            if($payload->exp<time()) {
-                return false;
-            }
+            // if($payload->exp<time()) {
+            //     echo'vencido';
+            //     return false;
+            // }
 
             return $payload;
         }
@@ -63,9 +68,10 @@
             $auth = explode(" ", $auth); // ["Bearer", "$token"]
 
             if($auth[0] != "Bearer") {
+                echo'fala el bearer';
                 return false;
             }
-
+          
             return $this->verify($auth[1]); // Si está bien nos devuelve el payload
         }
     }

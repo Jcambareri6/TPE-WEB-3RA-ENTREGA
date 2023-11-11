@@ -17,7 +17,7 @@ require_once 'app/helpers/auth.api.helper.php';
 
         function getToken($params = []) {
             $basic = $this->authHelper->getAuthHeaders(); // Darnos el header 'Authorization:' 'Basic: base64(usr:pass)'
-
+            
             if(empty($basic)) {
                 //
                 $this->view->response('No envió encabezados de autenticación.', 401);
@@ -25,7 +25,7 @@ require_once 'app/helpers/auth.api.helper.php';
             }
 
             $basic = explode(" ", $basic); // ["Basic", "base64(usr:pass)"]
-
+            
             if($basic[0]!="Basic") {
                 $this->view->response('Los encabezados de autenticación son incorrectos.', 401);
                 return;
@@ -37,9 +37,9 @@ require_once 'app/helpers/auth.api.helper.php';
             $user = $userpass[0];
             $pass = $userpass[1];
 
-            $userdata = [ "name" => $user, "id" => 123, "role" => 'ADMIN' ]; // Llamar a la DB
-
-            if($user == "Nico" && $pass == "1234") {
+            $userdata = $this->model->getByEmail($user); // Llamar a la DB
+        
+            if ( $user==$userdata->username && password_verify($pass,$userdata->password)) {
                 // Usuario es válido
                 
                 $token = $this->authHelper->createToken($userdata);

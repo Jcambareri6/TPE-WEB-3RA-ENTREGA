@@ -1,18 +1,20 @@
 <?php
 require_once './App/models/ProductoModel.php';
 require_once './App/views/api.view.php';
+require_once './App/helpers/auth.api.helper.php';
 
 class productosController
 {
     private $model;
     private $view;
-
+    private $authHelper;
     private $data;
 
     public function __construct()
     {
         $this->model = new ProductoModel();
         $this->view = new ApiView();
+        $this->authHelper= new AuthHelper();
 
         // lee el body del request
         $this->data = file_get_contents("php://input");
@@ -22,8 +24,8 @@ class productosController
     {
         return json_decode($this->data);
     }
-    public function getCondicion()
-    {
+    public function getCondicion() {
+        
         // Verificar si hay un parámetro 'filterBy' en la URL
         if (!empty($_GET['filterBy'])) {
             $condicion = $_GET['filterBy'];
@@ -73,6 +75,13 @@ class productosController
     {
         // ?sort=nombre&order=desc
         // ?page=3
+        $user=$this->authHelper->currentUser();
+        
+        if(!$user){
+            $this->view->response("unauthorized",401);
+        }else{
+
+        
 
         $parametrosGet['order'] = $this->GetOrder();
         $parametrosGet['filterBy'] = $this->getCondicion();
@@ -83,6 +92,7 @@ class productosController
         } else {
             $this->view->response("no existe", 404);
         }
+    }
     }
 
     //   
@@ -101,11 +111,6 @@ class productosController
             };
         }
     }
-
-
-
-
-
 
     public function deleteProduct($params = null)
     {
