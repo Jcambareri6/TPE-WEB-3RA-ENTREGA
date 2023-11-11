@@ -3,28 +3,40 @@
 require_once 'App/models/model.php';
 
 class MarcasModel extends DB{
-    public function getMarcas($params=null, $parametrosGet){
-        $sql = 'SELECT * FROM marcas';
-        if (!empty($parametrosGet)){
-            switch ($parametrosGet){
-                case isset ($parametrosGet['order']):
-                    $sql.= 'ORDER BY '.$parametrosGet['order'] . " " . $parametrosGet['sort'];
-                    break;
-                case isset ($parametrosGet['Condicion']) : 
-                    $sql.= ' WHERE '.$parametrosGet['Condicion'];
-                break;
-            }
-        }
+    public function getAllMarcas($parametrosGet){
+        $sql = 'SELECT * FROM marcas '.$parametrosGet['order'].' '.$parametrosGet['page'];
         $query = $this->connect()->prepare($sql);
         $query->execute();
         $marcas = $query->fetchAll(PDO::FETCH_OBJ);
         return $marcas;
     }
+    public function hasColumn($columna){
+        $query=$this->connect()->prepare('SELECT COLUMN_NAME
+        FROM INFORMATION_SCHEMA.COLUMNS
+        WHERE TABLE_SCHEMA = ?
+        AND TABLE_NAME = ?
+        AND COLUMN_NAME = ?');
+        $query->execute([DB_NAME,'marcas',$columna]);
+        $row= $query->fetch(PDO::FETCH_OBJ);
+        if ($row !== false) {
+            return  $row->COLUMN_NAME == $columna;
+        }
+        return false;
+    }
+
+
+
     public function getMarca($id){
         $query = $this -> connect()->prepare('SELECT * FROM marcas WHERE marcaID = ?');
         $query->execute([$id]);
         $marca = $query->fetch(PDO::FETCH_OBJ);
         return $marca;
+    }
+
+    public function insertMarca($nombreMarca){
+        $query = $this->connect()->prepare('INSERT INTO marcas(Nombre) VALUES (?)');
+        $query->execute([$nombreMarca]);
+        return $this->connect()->lastInsertId();
     }
 
     public function getMarcasPaginadas($limit, $offset){

@@ -49,7 +49,7 @@
             // var_dump($new_signature);
             // die(__FILE__);
             if($signature!=$new_signature) {
-                echo' la firma no es valida';
+                echo' La firma no es valida';
                 return false;
             }
 
@@ -68,7 +68,7 @@
             $auth = explode(" ", $auth); // ["Bearer", "$token"]
 
             if($auth[0] != "Bearer") {
-                echo'fala el bearer';
+                echo 'Falla el bearer';
                 return false;
             }
           
