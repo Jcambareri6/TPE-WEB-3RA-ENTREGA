@@ -69,20 +69,10 @@ class productosController{
         return 'DESC';
     }
 
-<<<<<<< HEAD
     public function getProducts(){
         // ?sort=nombre&order=desc
         // ?page=3
         
-=======
-    public function getProducts()
-    {
-        $user=$this->authHelper->currentUser();
-        
-        if(!$user){
-            $this->view->response("Unauthorized",401);
-        }else{
->>>>>>> b1b5a22378ef668c657c0390328b3eab0f8224bc
         $parametrosGet['order'] = $this->GetOrder();
         $parametrosGet['filterBy'] = $this->getCondicion();
         $parametrosGet['page'] = $this->getLimit();
@@ -93,21 +83,15 @@ class productosController{
         } 
          $this->view->response("no existe", 404);
     }
-<<<<<<< HEAD
     
-=======
-    }
-
     public function getLimit(){
-
         if (!empty($_GET['limit'])){
             $limit = $_GET['limit'];
             $page = $this->getPage();
-            if (is_numeric($limit) && $limit >=1){
+            if (is_numeric($limit) && $limit >= 1){
                 return ' LIMIT ' . $limit . $page;
             }
         }
-
         return " ";
     }
 
@@ -120,7 +104,7 @@ class productosController{
         }
         return " ";
     }
->>>>>>> b1b5a22378ef668c657c0390328b3eab0f8224bc
+
 
      function getProduct($params = null) {
         // obtengo el id del arreglo de params

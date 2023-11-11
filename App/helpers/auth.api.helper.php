@@ -50,11 +50,7 @@
             // var_dump($new_signature);
             // die(__FILE__);
             if($signature!=$new_signature) {
-<<<<<<< HEAD
                 
-=======
-                echo' La firma no es valida';
->>>>>>> b1b5a22378ef668c657c0390328b3eab0f8224bc
                 return false;
             }
 
@@ -73,11 +69,7 @@
             $auth = explode(" ", $auth); // ["Bearer", "$token"]
 
             if($auth[0] != "Bearer") {
-<<<<<<< HEAD
-              
-=======
                 echo 'Falla el bearer';
->>>>>>> b1b5a22378ef668c657c0390328b3eab0f8224bc
                 return false;
             }
           
