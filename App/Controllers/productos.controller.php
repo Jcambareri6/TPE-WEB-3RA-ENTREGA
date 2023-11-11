@@ -90,6 +90,8 @@ class productosController{
             if (is_numeric($limit) && $limit >= 1){
                 return ' LIMIT ' . $limit . $page;
             }
+            $this->view->response("parametro incorrecto",404);
+            die();
         }
         return " ";
     }

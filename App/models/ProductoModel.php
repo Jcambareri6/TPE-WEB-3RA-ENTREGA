@@ -45,16 +45,7 @@ class ProductoModel extends DB{
 
     }
     
-    public function getProductPerPage($limit, $offset){
-        $query = $this->connect()->prepare("SELECT * FROM productos LIMIT ? OFFSET ?");
-        $query->bindValue(1, $limit, PDO::PARAM_INT);
-        $query->bindValue(2, $offset, PDO::PARAM_INT);
-    
-        $query->execute();
-        $productos = $query->fetchAll(PDO::FETCH_OBJ);
-        return $productos;
-
-    }
+  
    
     public function updateProduct($id, $nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion){
         $query = $this->connect()->prepare('UPDATE productos SET NombreProducto = ?, Descripcion = ?, Precio = ?, Stock = ?, IDmarca = ?, Condicion = ?, WHERE ProductoID = ?');
