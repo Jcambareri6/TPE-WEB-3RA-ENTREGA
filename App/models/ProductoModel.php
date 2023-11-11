@@ -1,11 +1,21 @@
 <?php
 require_once './App/models/model.php';
 class ProductoModel extends DB{
-    public function getProducts($params=null,$parametrosGet){
+
+
+
+   // public function getProducts($params=null,$parametrosGet){
         //SI EL PARAMS ES ASC{
             // $sql .= ' ORDER BY'
         //} 
-        $sql = 'SELECT * FROM productos ORDER BY precio';
+        public function GetAll($parametrosGet){
+
+            $sql = 'SELECT * FROM productos '.$parametrosGet['order'];
+            echo ($sql);
+            die(__FILE__);
+
+
+        /*$sql = 'SELECT * FROM productos ORDER BY precio';
         //ordenado por campo
         
         if(!empty($parametrosGet)){
@@ -17,7 +27,7 @@ class ProductoModel extends DB{
                     $sql.=' WHERE '.$parametrosGet['Condicion'] ; 
                  break;
             }
-        }
+        } */
 
         // select c1...
         // from tabla
