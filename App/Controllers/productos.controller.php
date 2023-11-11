@@ -19,27 +19,29 @@ class productosController {
     private function getData() {
         return json_decode($this->data);
     }
-    public function GetSort(){
-        if(isset($_GET['sort'])){
+     public function GetOrder(){
+        $sort= $this->GetSort();
+        if(!empty ($_GET['order'])){
+            $order=$_GET['order']; 
+            $order = filter_var($_GET['order']);// sanitizo el codigo
+
+            if($this->model->HasColumn($order)){// aplico la funcion para  validar que el campo es correcto
+                return 'ORDER BY '.$order.' '.$sort; // aplico el sort ya que si no esta seteado es por defecto
+            }    
+        }
+        return ' ORDER BY Precio '.$sort;
+     }
+     public function GetSort(){
+        if(!empty ($_GET['sort'])){
             $sort=$_GET['sort'];
-            return $sort;
-        }else{
-            return $sort='ASC';
+           return $sort;  
         }
+        return 'DESC';  
+     }
 
-    }
-    public function setCondicion(){
-        if(isset($_GET['Condicion'])){
-            $campo=$_GET['Condicion'];
-            return $campo;
-        }
-
-    }
-
-    public function getProducts($params = null) {
+    public function getProducts() {
         // ?sort=nombre&order=desc
         // ?page=3
-        $parametrosGet=[];
        
         $condicionWhere=$this->setCondicion();
         
