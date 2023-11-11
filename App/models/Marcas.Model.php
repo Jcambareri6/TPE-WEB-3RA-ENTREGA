@@ -27,6 +27,15 @@ class MarcasModel extends DB{
         return $marca;
     }
 
+    public function getMarcasPaginadas($limit, $offset){
+        $query = $this->connect()->prepare("SELECT * FROM marcas LIMIT ? OFFSET ?");
+        $query->bindValue(1, $limit, PDO::PARAM_INT);
+        $query->bindValue(2, $offset, PDO::PARAM_INT);
+        $query->execute();
+        $marcas = $query->fetchAll(PDO::FETCH_OBJ);
+        return $marcas;
+    }
+
     public function updateMarca($id, $nombre){
         $query = $this->connect()->prepare('UPDATE marcas SET Nombre = ? WHERE MarcaID = ?');
         $query->execute([$nombre, $id]);

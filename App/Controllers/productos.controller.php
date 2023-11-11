@@ -75,6 +75,7 @@ class productosController
     {
         // ?sort=nombre&order=desc
         // ?page=3
+<<<<<<< HEAD
         $user=$this->authHelper->currentUser();
         
         if(!$user){
@@ -86,6 +87,9 @@ class productosController
         $parametrosGet['order'] = $this->GetOrder();
         $parametrosGet['filterBy'] = $this->getCondicion();
         //consulta a lo ultimo si hay algun orden para establecer sino establece el orden por defecto del campo 
+=======
+        $parametrosGet['order']=$this->GetOrder();
+>>>>>>> e6b1773dfdd77e1749a1fcee437a26596ffab2a8
         $productos = $this->model->GetAll($parametrosGet);
         if ($productos) {
             $this->view->response($productos);
@@ -93,7 +97,12 @@ class productosController
             $this->view->response("no existe", 404);
         }
     }
+<<<<<<< HEAD
     }
+=======
+    
+    
+>>>>>>> e6b1773dfdd77e1749a1fcee437a26596ffab2a8
 
     //   
 
