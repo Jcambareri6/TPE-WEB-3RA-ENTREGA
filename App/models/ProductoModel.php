@@ -5,27 +5,25 @@ class ProductoModel extends DB{
         //SI EL PARAMS ES ASC{
             // $sql .= ' ORDER BY'
         //} 
-        $sql = 'SELECT * FROM productos';
+        $sql = 'SELECT * FROM productos ORDER BY precio';
         //ordenado por campo
         
         if(!empty($parametrosGet)){
             switch ($parametrosGet){
                 case isset($parametrosGet['order']) :
-<<<<<<< HEAD
                  $sql.=' ORDER BY '.$parametrosGet['order'].' '.$parametrosGet['sort'];
-=======
-                 $sql.=' ORDER BY '.$parametrosGet['order'] . " ". $parametrosGet['sort'] ; 
->>>>>>> 780d3ddcc7989cb19f217fce49732419a1841831
                  break;
                  case isset($parametrosGet['Condicion']) :
                     $sql.=' WHERE '.$parametrosGet['Condicion'] ; 
                  break;
             }
         }
-<<<<<<< HEAD
-=======
-        //filtro
->>>>>>> 780d3ddcc7989cb19f217fce49732419a1841831
+
+        // select c1...
+        // from tabla
+        // where condicion
+        // order by
+
         $query= $this->connect()->prepare($sql);
         $query->execute();
         $productos= $query->fetchAll(PDO::FETCH_OBJ);
@@ -58,17 +56,10 @@ class ProductoModel extends DB{
         return $productos;
 
     }
-<<<<<<< HEAD
    
     public function updateProduct($id, $nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion){
         $query = $this->connect()->prepare('UPDATE productos SET NombreProducto = ?, Descripcion = ?, Precio = ?, Stock = ?, IDmarca = ?, Condicion = ?, WHERE ProductoID = ?');
         $query->execute([$nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion, $id]);
-=======
-
-    public function updateProduct($id, $nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion){
-        $query = $this->connect()->prepare('UPDATE productos SET NombreProducto = ?, Descripcion = ?, Precio = ?, Stock = ?,IDmarca = ?, Condicion = ? WHERE ProductoID = ?');
-        $query -> execute([$nombreProducto, $descripcion, $precio, $stock, $idMarca, $condicion, $id]);
->>>>>>> 780d3ddcc7989cb19f217fce49732419a1841831
     }
 
 

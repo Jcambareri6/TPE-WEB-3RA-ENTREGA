@@ -45,11 +45,11 @@ class productosController {
         
          
         if (!empty($_GET['order'])) {
-            $parametrosGet['sort'] = $this->GetSort();
+            $parametrosGet['sort'] = 'SORT '.$this->GetSort();
             $parametrosGet['order'] = $_GET['order'];
         } 
         if (!empty($condicionWhere)) {
-            $parametrosGet['Condicion'] = $condicionWhere;
+            $parametrosGet['Condicion'] =  'WHERE' ;
         }
         
         $productos = $this->model->getProducts($params, $parametrosGet);
