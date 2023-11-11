@@ -53,7 +53,7 @@ class productosController{
         $sort = $this->GetSort();
         if (!empty($_GET['order'])) {
             $order = $_GET['order'];
-            $order = filter_var($_GET['order']);
+
             if ($this->model->HasColumn($order)) { // aplico la funcion para  validar que el campo es correcto
                 return 'ORDER BY ' . $order . ' ' . $sort; // aplico el sort ya que si no esta seteado es por defecto
             }
@@ -69,23 +69,12 @@ class productosController{
         return 'DESC';
     }
 
-<<<<<<< HEAD
     public function getProducts(){
         // ?sort=nombre&order=desc
         // ?page=3
         
-=======
-    public function getProducts()
-    {
-        $user=$this->authHelper->currentUser();
-        
-        if(!$user){
-            $this->view->response("Unauthorized",401);
-        }else{
->>>>>>> b1b5a22378ef668c657c0390328b3eab0f8224bc
         $parametrosGet['order'] = $this->GetOrder();
         $parametrosGet['filterBy'] = $this->getCondicion();
-        $parametrosGet['page'] = $this->getLimit();
         //consulta a lo ultimo si hay algun orden para establecer sino establece el orden por defecto del campo 
         $productos = $this->model->GetAll($parametrosGet);
         if ($productos) {
@@ -93,34 +82,7 @@ class productosController{
         } 
          $this->view->response("no existe", 404);
     }
-<<<<<<< HEAD
     
-=======
-    }
-
-    public function getLimit(){
-
-        if (!empty($_GET['limit'])){
-            $limit = $_GET['limit'];
-            $page = $this->getPage();
-            if (is_numeric($limit) && $limit >=1){
-                return ' LIMIT ' . $limit . $page;
-            }
-        }
-
-        return " ";
-    }
-
-    public function getPage(){
-        if (!empty($_GET['page'])){
-            $page = $_GET['page'];
-            if (is_numeric($page) && $page >= 1){
-                return ' OFFSET '.$page;
-            }
-        }
-        return " ";
-    }
->>>>>>> b1b5a22378ef668c657c0390328b3eab0f8224bc
 
      function getProduct($params = null) {
         // obtengo el id del arreglo de params
@@ -164,12 +126,12 @@ class productosController{
         }
     }
 
-     function actualizarProducto($params){
-        $user=$this->authHelper->currentUser();
-        if(!$user){
-            $this->view->response("unauthorized",401);
-            die();
-        }
+     function actualizarProducto($params = []){
+        // $user=$this->authHelper->currentUser();
+        // if(!$user){
+        //     $this->view->response("unauthorized",401);
+        //     die();
+        // }
         $id = $params[':ID'];
         $product = $this->model->getProduct($id);
         if ($product) {

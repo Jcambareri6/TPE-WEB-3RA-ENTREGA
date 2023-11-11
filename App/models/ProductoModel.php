@@ -3,14 +3,10 @@ require_once './App/models/model.php';
 class ProductoModel extends DB{
 
     public function GetAll($parametrosGet){
-<<<<<<< HEAD
        //$condicion= $parametrosGet['filterBy'];
      $sql = 'SELECT * FROM productos'.$parametrosGet['filterBy'].' '.$parametrosGet['order'];
         // var_dump($sql);
         // die(__FILE__);
-=======
-        $sql = 'SELECT * FROM productos'.$parametrosGet['filterBy'].' '.$parametrosGet['order'].' '.$parametrosGet['page'];
->>>>>>> b1b5a22378ef668c657c0390328b3eab0f8224bc
         $query= $this->connect()->prepare($sql);
         $query->execute();
         $productos= $query->fetchAll(PDO::FETCH_OBJ);
