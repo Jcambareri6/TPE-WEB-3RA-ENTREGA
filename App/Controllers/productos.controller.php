@@ -73,11 +73,11 @@ class productosController{
         // ?sort=nombre&order=desc
         // ?page=3
 
-        $user=$this->authHelper->currentUser();
+        // $user=$this->authHelper->currentUser();
 
-        if(!$user){
-            $this->view->response("unauthorized",401);
-        }else{
+        // if(!$user){
+        //     $this->view->response("unauthorized",401);
+        // }else{
 
         
         $parametrosGet['order'] = $this->GetOrder();
@@ -90,9 +90,9 @@ class productosController{
         } 
          $this->view->response("no existe", 404);
     }
-}
+
     
-    public function getLimit(){
+     function getLimit(){
         if (!empty($_GET['limit'])){
             $limit = $_GET['limit'];
             $page = $this->getPage();
@@ -105,7 +105,7 @@ class productosController{
         return " ";
     }
 
-    public function getPage(){
+     function getPage(){
         if (!empty($_GET['page'])){
             $page = $_GET['page'];
             if (is_numeric($page) && $page >= 1){
