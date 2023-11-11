@@ -72,9 +72,17 @@ class productosController{
     public function getProducts(){
         // ?sort=nombre&order=desc
         // ?page=3
+
+        $user=$this->authHelper->currentUser();
+
+        if(!$user){
+            $this->view->response("unauthorized",401);
+        }else{
+
         
         $parametrosGet['order'] = $this->GetOrder();
         $parametrosGet['filterBy'] = $this->getCondicion();
+        $parametrosGet['page'] = $this->getLimit();
         //consulta a lo ultimo si hay algun orden para establecer sino establece el orden por defecto del campo 
         $productos = $this->model->GetAll($parametrosGet);
         if ($productos) {
@@ -82,6 +90,7 @@ class productosController{
         } 
          $this->view->response("no existe", 404);
     }
+}
     
     public function getLimit(){
         if (!empty($_GET['limit'])){
