@@ -2,38 +2,8 @@
 require_once './App/models/model.php';
 class ProductoModel extends DB{
 
-
-
-   // public function getProducts($params=null,$parametrosGet){
-        //SI EL PARAMS ES ASC{
-            // $sql .= ' ORDER BY'
-        //} 
-        public function GetAll($parametrosGet){
-
-            $sql = 'SELECT * FROM productos '.$parametrosGet['order'];
-            //echo ($sql);
-            die(__FILE__);
-
-
-        /*$sql = 'SELECT * FROM productos ORDER BY precio';
-        //ordenado por campo
-        
-        if(!empty($parametrosGet)){
-            switch ($parametrosGet){
-                case isset($parametrosGet['order']) :
-                 $sql.=' ORDER BY '.$parametrosGet['order'].' '.$parametrosGet['sort'];
-                 break;
-                 case isset($parametrosGet['Condicion']) :
-                    $sql.=' WHERE '.$parametrosGet['Condicion'] ; 
-                 break;
-            }
-        } */
-
-        // select c1...
-        // from tabla
-        // where condicion
-        // order by
-
+    public function GetAll($parametrosGet){
+        $sql = 'SELECT * FROM productos '.$parametrosGet['order'];
         $query= $this->connect()->prepare($sql);
         $query->execute();
         $productos= $query->fetchAll(PDO::FETCH_OBJ);

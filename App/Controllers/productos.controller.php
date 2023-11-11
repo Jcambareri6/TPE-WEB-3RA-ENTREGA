@@ -44,20 +44,6 @@ class productosController {
         // ?page=3
         $parametrosGet['order']=$this->GetOrder();
         $productos = $this->model->GetAll($parametrosGet);
-       
-       /* $condicionWhere=$this->setCondicion();
-        
-         
-        if (!empty($_GET['order'])) {
-            $parametrosGet['sort'] = 'SORT '.$this->GetSort();
-            $parametrosGet['order'] = $_GET['order'];
-        } 
-        if (!empty($condicionWhere)) {
-            $parametrosGet['Condicion'] =  'WHERE' ;
-        }
-        
-        $productos = $this->model->getProducts($params, $parametrosGet); */
-        
         if ($productos) {
             $this->view->response($productos);
         } else {
@@ -67,7 +53,6 @@ class productosController {
              
     }
     
-    //   
     
 
      public function getProduct($params = null) {

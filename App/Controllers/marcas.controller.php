@@ -19,8 +19,21 @@ class marcasController{
         return json_decode($this->data);
     }
 
+    public function getOrder(){
+        $sort = $this->getSort();
+        if (!empty ($_GET['order'])){
+            $order=$_GET['order'];
+            $order = filter_var($_GET['order']);
+            if ($this->model->hasColumn($order)){
+                return 'ORDER BY '.$order.' '.$sort;
+            }
+
+        }
+        return 'ORDER BY Nombre '.$sort;
+    }
+
     public function getSort(){
-        if (isset($_GET['sort'])){
+        if (!empty($_GET['sort'])){
             $sort = $_GET['sort'];
             return $sort;
         } else {
@@ -29,34 +42,16 @@ class marcasController{
 
     }
 
-    public function setCondicion(){
-        if (isset($_GET['condicion'])){
-            $campo = $_GET['condicion'];
-            return $campo;
+    public function getMarcas(){
+        $parametros['order']=$this->getOrder();
+        $marcas = $this->model->getAllMarcas($parametros);
+        if ($marcas){
+            $this->view->response($marcas);
+        }else{
+            $this->view->response("No existe", 404);
         }
     }
 
-
-    public function getMarcas($params = []){
-        $parametrosGet = [];
-        $condicionWhere = $this->setCondicion();
-
-        if (isset($_GET['order'])){
-            $parametrosGet['sort'] = $this->getSort();
-            $parametrosGet['order'] = $_GET['order'];
-        }
-
-        if (!empty($condicionWhere)){
-            $parametrosGet['condicion'] = $condicionWhere;
-        }
-
-        $marcas = $this->model->getMarcas($params, $parametrosGet);
-
-        if ($marcas) {
-            $this->view->response($marcas);
-        } else {
-            $this->view->response("No existe", 404)
-        }
 
 
     public function getMarca($params = []){
