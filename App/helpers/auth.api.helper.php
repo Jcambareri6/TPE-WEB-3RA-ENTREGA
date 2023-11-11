@@ -21,8 +21,9 @@
                 'alg' => 'HS256',
                 'typ' => 'JWT'
             );
-            
-            //s$payload['exp'] = time() + JWT_EXP;
+            $payload->expiration= time()+JWT_EXP;
+     
+          
 
             $header = base64url_encode(json_encode($header));
             $payload = base64url_encode(json_encode($payload));
@@ -49,16 +50,16 @@
             // var_dump($new_signature);
             // die(__FILE__);
             if($signature!=$new_signature) {
-                echo' la firma no es valida';
+                
                 return false;
             }
 
             $payload = json_decode(base64_decode($payload));
 
-            // if($payload->exp<time()) {
-            //     echo'vencido';
-            //     return false;
-            // }
+             if($payload->expiration<time()) {
+            
+                return false;
+             }
 
             return $payload;
         }
@@ -68,7 +69,7 @@
             $auth = explode(" ", $auth); // ["Bearer", "$token"]
 
             if($auth[0] != "Bearer") {
-                echo'fala el bearer';
+              
                 return false;
             }
           
