@@ -11,7 +11,7 @@ class ProductoModel extends DB{
         public function GetAll($parametrosGet){
 
             $sql = 'SELECT * FROM productos '.$parametrosGet['order'];
-            echo ($sql);
+            //echo ($sql);
             die(__FILE__);
 
 
