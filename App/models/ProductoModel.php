@@ -7,6 +7,7 @@ class ProductoModel extends DB{
      $sql = 'SELECT * FROM productos'.$parametrosGet['filterBy'].' '.$parametrosGet['order'];
         // var_dump($sql);
         // die(__FILE__);
+        $sql = 'SELECT * FROM productos'.$parametrosGet['filterBy'].' '.$parametrosGet['order'].' '.$parametrosGet['page'];
         $query= $this->connect()->prepare($sql);
         $query->execute();
         $productos= $query->fetchAll(PDO::FETCH_OBJ);

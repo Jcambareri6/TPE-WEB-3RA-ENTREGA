@@ -83,6 +83,27 @@ class productosController{
          $this->view->response("no existe", 404);
     }
     
+    public function getLimit(){
+        if (!empty($_GET['limit'])){
+            $limit = $_GET['limit'];
+            $page = $this->getPage();
+            if (is_numeric($limit) && $limit >= 1){
+                return ' LIMIT ' . $limit . $page;
+            }
+        }
+        return " ";
+    }
+
+    public function getPage(){
+        if (!empty($_GET['page'])){
+            $page = $_GET['page'];
+            if (is_numeric($page) && $page >= 1){
+                return ' OFFSET '.$page;
+            }
+        }
+        return " ";
+    }
+
 
      function getProduct($params = null) {
         // obtengo el id del arreglo de params

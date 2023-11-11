@@ -50,7 +50,6 @@
             // var_dump($new_signature);
             // die(__FILE__);
             if($signature!=$new_signature) {
-              
                 return false;
             }
 
@@ -69,7 +68,7 @@
             $auth = explode(" ", $auth); // ["Bearer", "$token"]
 
             if($auth[0] != "Bearer") {
-        
+             
                 return false;
             }
           
