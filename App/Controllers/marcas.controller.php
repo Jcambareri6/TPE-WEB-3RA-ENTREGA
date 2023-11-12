@@ -1,9 +1,10 @@
 <?php
+require_once './App/controllers/controller.php';
 require_once './App/models/Marcas.Model.php';
 require_once './App/views/api.view.php';
 require_once './App/helpers/auth.api.helper.php';
 
-class marcasController{
+class marcasController extends Controller{
     private $model;
     private $view;
     private $data;
@@ -16,10 +17,6 @@ class marcasController{
         
         // lee el body del request
         $this->data = file_get_contents("php://input");
-    }
-
-    private function getData() {
-        return json_decode($this->data);
     }
 
     public function getOrder(){
@@ -45,10 +42,7 @@ class marcasController{
     }
 
     public function getMarcas(){
-        $user = $this -> authHelper->currentUser();
-        if (!$user){
-            $this->view->response("Unauthorized", 401);
-        }else{
+
             $parametrosGet['order']=$this->getOrder();
             $parametrosGet['page'] = $this->getLimit();
             $marcas = $this->model->getAllMarcas($parametrosGet);
@@ -57,35 +51,10 @@ class marcasController{
             }else{
                 $this->view->response("No existe", 404);
             }
-        }
-
-
-    }
-
-    public function getLimit(){
-        if (!empty($_GET['limit'])){
-            $limit = $_GET['limit'];
-            $page = $this->getPage();
-            if (is_numeric($limit) && $limit >= 1){
-                return ' LIMIT ' . $limit . $page;
-            }
-        }
-        return " ";
-    }
-
-    public function getPage(){
-        if (!empty($_GET['page'])){
-            $page = $_GET['page'];
-            if (is_numeric($page) && $page >= 1){
-                return ' OFFSET '.$page;
-            }
-        }
-        return " ";
     }
 
 
-
-    public function getMarca($params = []){
+    function getMarca($params = []){
         if (!empty($params[':ID'])){
             $id = $params[':ID'];
             $marca = $this->model->getMarca($id);
@@ -97,27 +66,37 @@ class marcasController{
         }
     }
 
-    public function insertarMarca($params = []){
-        $marca = $this->getData();
-        if (empty($marca->Nombre)){
-            $this->view->response("Complete los datos", 400);
-        }else {
-            $id = $this->model->insertMarca($marca->Nombre);
-            $marca = $this->model->getMarca($id);
-            $this->view->response($marca, 201);
+    function insertarMarca($params = []){
+        $user = $this -> authHelper->currentUser();
+        if (!$user){
+            $this->view->response("Unauthorized", 401);
+        }else{
+            $marca = $this->getData();
+            if (empty($marca->Nombre)){
+                $this->view->response("Complete los datos", 400);
+            }else {
+                $id = $this->model->insertMarca($marca->Nombre);
+                $marca = $this->model->getMarca($id);
+                $this->view->response($marca, 201);
+            }
         }
     }
 
-    public function actualizarMarca($params = []){
-        $id = $params[':ID'];
-        $marca = $this->model->getMarca($id);
-        if ($marca){
-            $body = $this->getData();
-            $nombre = $body -> Nombre;
-            $this->model->updateMarca($id, $nombre);
-            $this->view->response('La marca con el id='.$id.' ha sido modificada', 200);
+    function actualizarMarca($params = []){
+        $user = $this -> authHelper->currentUser();
+        if (!$user){
+            $this->view->response("Unauthorized", 401);
         }else{
-            $this->view->response('La tarea con id='.$id.' no existe', 404);
+            $id = $params[':ID'];
+            $marca = $this->model->getMarca($id);
+            if ($marca){
+                $body = $this->getData();
+                $nombre = $body -> Nombre;
+                $this->model->updateMarca($id, $nombre);
+                $this->view->response('La marca con el id='.$id.' ha sido modificada', 200);
+            }else{
+                $this->view->response('La tarea con id='.$id.' no existe', 404);
+            }
         }
     }
 

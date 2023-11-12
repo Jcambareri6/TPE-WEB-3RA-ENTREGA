@@ -16,6 +16,7 @@ $router->addRoute('productos/:ID', 'PUT', 'productosController', 'actualizarProd
 $router->addRoute('marcas', 'GET', 'marcasController', 'getMarcas');
 $router->addRoute('marcas/:ID', 'GET', 'marcasController', 'getMarca');
 $router->addRoute('marcas/:ID', 'PUT', 'marcasController', 'actualizarMarca');
+$router->addRoute('marcas/', 'POST', 'marcasController', 'insertarMarca');
 $router->addRoute('user/token', 'GET',    'UserApiController', 'getToken'   );
  
 

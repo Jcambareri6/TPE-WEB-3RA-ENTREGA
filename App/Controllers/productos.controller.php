@@ -1,9 +1,10 @@
 <?php
+require_once './App/controllers/controller.php';
 require_once './App/models/ProductoModel.php';
 require_once './App/views/api.view.php';
 require_once './App/helpers/auth.api.helper.php';
 
-class productosController{
+class productosController extends Controller{
     private $model;
     private $view;
     private $authHelper;
@@ -18,10 +19,6 @@ class productosController{
         $this->data = file_get_contents("php://input");
     }
 
-    private function getData()
-    {
-        return json_decode($this->data);
-    }
     public function getCondicion() {
         
         // Verificar si hay un parámetro 'filterBy' en la URL
@@ -70,16 +67,6 @@ class productosController{
     }
 
     public function getProducts(){
-        // ?sort=nombre&order=desc
-        // ?page=3
-
-        // $user=$this->authHelper->currentUser();
-
-        // if(!$user){
-        //     $this->view->response("unauthorized",401);
-        // }else{
-
-        
         $parametrosGet['order'] = $this->GetOrder();
         $parametrosGet['filterBy'] = $this->getCondicion();
         $parametrosGet['page'] = $this->getLimit();
@@ -87,34 +74,11 @@ class productosController{
         $productos = $this->model->GetAll($parametrosGet);
         if ($productos) {
             $this->view->response($productos);
-        } 
-         $this->view->response("no existe", 404);
-    }
-
-    
-     function getLimit(){
-        if (!empty($_GET['limit'])){
-            $limit = $_GET['limit'];
-            $page = $this->getPage();
-            if (is_numeric($limit) && $limit >= 1){
-                return ' LIMIT ' . $limit . $page;
-            }
-            $this->view->response("parametro incorrecto",404);
-            die();
+        } else{
+            $this->view->response("No existe", 404);
         }
-        return " ";
-    }
 
-     function getPage(){
-        if (!empty($_GET['page'])){
-            $page = $_GET['page'];
-            if (is_numeric($page) && $page >= 1){
-                return ' OFFSET '.$page;
-            }
-        }
-        return " ";
     }
-
 
      function getProduct($params = null) {
         // obtengo el id del arreglo de params
@@ -158,12 +122,12 @@ class productosController{
         }
     }
 
-     function actualizarProducto($params = []){
-        // $user=$this->authHelper->currentUser();
-        // if(!$user){
-        //     $this->view->response("unauthorized",401);
-        //     die();
-        // }
+    function actualizarProducto($params = []){
+        $user=$this->authHelper->currentUser();
+        if(!$user){
+             $this->view->response("unauthorized",401);
+             die();
+        }
         $id = $params[':ID'];
         $product = $this->model->getProduct($id);
         if ($product) {
