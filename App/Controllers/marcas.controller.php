@@ -91,9 +91,13 @@ class marcasController extends Controller{
             $marca = $this->model->getMarca($id);
             if ($marca){
                 $body = $this->getData();
-                $nombre = $body -> Nombre;
-                $this->model->updateMarca($id, $nombre);
-                $this->view->response('La marca con el id='.$id.' ha sido modificada', 200);
+                if (empty($marca->Nombre)){
+                    $this->view->response("No se completaron todos los datos", 400);
+                }else {
+                    $nombre = $body -> Nombre;
+                    $this->model->updateMarca($id, $nombre);
+                    $this->view->response('La marca con el id='.$id.' ha sido modificada', 200);
+                }
             }else{
                 $this->view->response('La tarea con id='.$id.' no existe', 404);
             }
