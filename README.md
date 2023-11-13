@@ -3,13 +3,24 @@
 
 | Nombre                | Email                 |
 |-----------------------|-----------------------|
-| Cambareri Joaquín     | [correo1@example.com](joaquin.cambareri@eest3necochea.edu.ar) |
+| Cambareri Joaquín     | [joaquin.cambareri@eest3necochea.edu.ar](mailto:joaquin.cambareri@eest3necochea.edu.ar) |
 | De la Penna Bruno     | [bdelapenna@gmail.com](mailto:bdelapenna@gmail.com) |
 
 # Endpoints
 
 ## GET
-- GET /user/token: este endpoint permite validar al usuario medianto un token limitado de tiempo.
+- GET /user/token: El endpoint `GET /user/token` se utiliza para validar la autenticidad de un usuario mediante la presentación de un token. tiene una duración limitada, lo que significa que solo es válido durante un período específico de tiempo.
+- #### Detalles del Endpoint
+
+- **Método HTTP:** GET
+- **Ruta:** `/user/token`
+- #### Parámetros de la Solicitud
+  Este endpoint requiere que se incluya el token en la URL o en la cabecera de la solicitud.
+  #### Respuestas Posibles
+-  1. **Éxito (200 OK):** Si el token es válido y aún está dentro de su período de vigencia, el servidor puede responder con un estado 200 OK, indicando que la validación fue exitosa.
+   2. **Error de Autenticación (401 Unauthorized):** Si el token no es válido, expiró o no se proporcionó, el servidor puede devolver un estado 401 Unauthorized, indicando que la autenticación ha fallado.
+   3. #### Ejemplo de Uso
+     Para validar un usuario, se realizaría una solicitud GET a la ruta `/user/token` con el token correspondiente, y la respuesta indicará el resultado de la validación.
 - GET /productos: Se puede acceder a la coleccion entera de productos.
  ```json
 [
