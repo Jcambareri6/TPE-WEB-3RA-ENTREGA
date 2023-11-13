@@ -87,9 +87,9 @@ class productosController extends Controller{
             $producto = $this->model->getProduct($id);
             if ($producto) {
                 $this->view->response($producto);
-            } 
-          $this->view->response('El producto con el ID=' . $id . ' no existe.', 404);
-            
+            } else{
+                $this->view->response('El producto con el ID=' . $id . ' no existe.', 404);
+            }
         }
     }
      function deleteProduct($params = null){
@@ -99,8 +99,9 @@ class productosController extends Controller{
         if ($product) {
             $this->model->delete($id);
             $this->view->response($product);
-        } 
-        $this->view->response("La tarea con el id=$id no existe", 404);
+        } else{
+            $this->view->response("La tarea con el id=$id no existe", 404);
+        }
     }
 
 
@@ -132,15 +133,19 @@ class productosController extends Controller{
         $product = $this->model->getProduct($id);
         if ($product) {
             $body = $this->getData();
-            $nombre = $body->NombreProducto;
-            $descripcion = $body->Descripcion;
-            $precio = $body->Precio;
-            $stock = $body->Stock;
-            $idMarca = $body->IDmarca;
-            $condicion = $body->Condicion;
-            $this->model->updateProduct($id, $nombre, $descripcion, $precio, $stock, $idMarca, $condicion);
+            if (empty($product->NombreProducto) || empty($product->Descripcion) || empty($product->Precio) || empty($product->Stock) || empty($product->IDmarca) || empty($product->Condicion)) {
+                $this->view->response("No se completaron todos los datos", 400);
+            } else {
+                $nombre = $body->NombreProducto;
+                $descripcion = $body->Descripcion;
+                $precio = $body->Precio;
+                $stock = $body->Stock;
+                $idMarca = $body->IDmarca;
+                $condicion = $body->Condicion;
+                $this->model->updateProduct($id, $nombre, $descripcion, $precio, $stock, $idMarca, $condicion);
 
-            $this->view->response('La tarea con id=' . $id . ' ha sido modificada.', 200);
+                $this->view->response('La tarea con id=' . $id . ' ha sido modificada.', 200);
+            }
         } else {
             $this->view->response('La tarea con id=' . $id . ' no existe.', 404);
         }
