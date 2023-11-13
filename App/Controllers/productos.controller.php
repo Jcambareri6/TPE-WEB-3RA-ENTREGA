@@ -67,6 +67,11 @@ class productosController extends Controller{
     }
 
     public function getProducts(){
+        $user=$this->authHelper->currentUser();
+        if(!$user){
+            $this->view->response("unauthorized",401);
+            die();
+        }
         $parametrosGet['order'] = $this->GetOrder();
         $parametrosGet['filterBy'] = $this->getCondicion();
         $parametrosGet['page'] = $this->getLimit();
