@@ -21,19 +21,27 @@
    2. **Error de Autenticación (401 Unauthorized):** Si el token no es válido, expiró o no se proporcionó, el servidor puede devolver un estado 401 Unauthorized, indicando que la autenticación ha fallado.
    3. #### Ejemplo de Uso
      Para validar un usuario, se realizaría una solicitud GET a la ruta `/user/token` con el token correspondiente, y la respuesta indicará el resultado de la validación.
-- GET /productos: Se puede acceder a la coleccion entera de productos.
- ```json
+## Endpoint: `GET /productos`
+
+Este endpoint permite acceder a la colección completa de productos.
+
+### Ejemplo de Respuesta:
+
+```json
 [
-    {
-        "ProductoID": 51,
-        "Imagen": "",
-        "NombreProducto": " ",
-        "Descripcion": "Último modelo de Galactic con cámara cuádruple, pantalla AMOLED de 6.5 pulgadas y batería de larga duración.",
-        "Precio": 850,
-        "Stock": 150,
-        "IDmarca": 9,
-        "Condicion": "usado"
-    },
+   {
+       "ProductoID": 51,
+       "Imagen": "",
+       "NombreProducto": "Galactic 6.5",
+       "Descripcion": "Último modelo de Galactic con cámara cuádruple, pantalla AMOLED de 6.5 pulgadas y batería de larga duración.",
+       "Precio": 850,
+       "Stock": 150,
+       "IDmarca": 9,
+       "Condicion": "usado"
+   },
+   // Otros productos 
+]
+
   ```
 - GET /productos/?order=...&sort=... : Se permite ordenar los productos de manera descendente o ascendente y por un campo en especifico.
 - GET /productos/?limit=...&offset=... : Se permite establecer un limite(limit) de productos que se mostrara depende la pagina(offset) elegida.
