@@ -1,7 +1,7 @@
 # TPE-WEB-3RA-ENTREGA
 ## Integrantes:
-Cambareri Joaquin, Email: 
-De la Penna Bruno, Email: bdelapenna@gmail.com
+-Cambareri Joaquin, Email: 
+-De la Penna Bruno, Email: bdelapenna@gmail.com
 
 # Endpoints
 
