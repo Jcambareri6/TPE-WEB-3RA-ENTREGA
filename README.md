@@ -18,7 +18,7 @@
   #### Respuestas Posibles
 -  1. **Éxito (200 OK):** Si el token es válido y aún está dentro de su período de vigencia, el servidor puede responder con un estado 200 OK, indicando que la validación fue exitosa.
    2. **Error de Autenticación (401 Unauthorized):** Si el token no es válido, expiró o no se proporcionó, el servidor puede devolver un estado 401 Unauthorized, indicando que la autenticación ha fallado.
-   3. #### Ejemplo de Uso
+  #### Ejemplo de Uso
      Para validar un usuario, se realizaría una solicitud GET a la ruta `/user/token` con el token correspondiente, y la respuesta indicará el resultado de la validación.
 ##  `GET /productos/ `
 Este endpoint permite acceder a la colección completa de productos.
@@ -52,13 +52,52 @@ Este endpoint permite ordenar la colección de productos de manera ascendente o 
 - Si no se proporciona el parámetro `order` o el campo no existe en la base de datos , se ordenará por defecto por el campo `Precio`.
 - Si no se proporciona el parámetro `sort`, la dirección de ordenación será por defecto descendente.
 
- ## GET /productos/?limit=...&offset=... : Se permite establecer un limite(limit) de productos que se mostrara depende la pagina(offset) elegida.
-- GET /productos/?filterBy=... : Se permite filtrar los productos dada una condicion.
-- GET /productos/:ID : Se permite acceder a un determinado producto dado por su ID.
-- GET /marcas : Se permite acceder a la coleccion entera de marcas.
-- GET /marcas/?order=...&sort=... : Se permite ordenar las marcas de manera descendente o ascendente y por un campo en especifico.
-- GET /marcas/?limit=...&offset=... : Se permite establecer un limite(limit) de marcas que se mostrara depende la pagina(offset) elegida.
-- GET /marcas/:ID : Se permite acceder a una determinada marca dada por su ID.
+ ## GET /productos/?limit=&offset= : 
+ Se permite establecer un limite(limit) de productos que se mostrara depende la pagina(offset) elegida.
+ ### Ejemplo de Uso:
+```plaintext
+ /productos/?limit=5&page=2
+```
+  ## GET /productos/?filterBy=
+  este endpoint permite filtrar la colección de productos según una condición especificada.
+  ### Parámetros de la Solicitud:
+| Parámetro   | Descripción                                              |
+|-------------|----------------------------------------------------------|
+| `filterBy`  | Condición por la cual filtrar los productos. Puede ser cualquier campo de la base de datos. |
+### Ejemplo de Uso:
+```plaintext
+ /productos/?filterBy=Precio>1200
+```
+## GET /productos/:ID 
+Se permite acceder a un determinado producto dado por su ID.
+#### Respuestas Posibles
+-  1. **Éxito (200 OK):** si el producto con el id existe;
+   2. **(404 not found):** el producto con el id no existe;
+### Ejemplo de Respuesta:
+```plaintext
+ /productos/51
+```
+```json
+
+   {
+       "ProductoID": 51,
+       "Imagen": "",
+       "NombreProducto": "Galactic 6.5",
+       "Descripcion": "Último modelo de Galactic con cámara cuádruple, pantalla AMOLED de 6.5 pulgadas y batería de larga duración.",
+       "Precio": 850,
+       "Stock": 150,
+       "IDmarca": 9,
+       "Condicion": "usado"
+   }
+  ```
+## GET /marcas :
+Se permite acceder a la coleccion entera de marcas.
+## GET /marcas/?order=&sort 
+Se permite ordenar las marcas de manera descendente o ascendente y por un campo en especifico.
+## GET /marcas/?limit=&offset= 
+Se permite establecer un limite(limit) de marcas que se mostrara depende la pagina(offset) elegida.
+## GET /marcas/:ID 
+Se permite acceder a una determinada marca dada por su ID.
 
 ## POST
 - POST /productos: Se permite agregar un nuevo producto. Esta accion se realiza mediante el BODY de POSTMAN.
