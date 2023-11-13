@@ -1,4 +1,4 @@
-# TPE-WEB-3RA-ENTREGA
+# Documentación de la API 
 ## Integrantes:
 
 | Nombre                | Email                 |
@@ -121,15 +121,39 @@ Se deben proporcionar los detalles del nuevo producto en el cuerpo de la solicit
 }
 ```
 ## Posibles Respuestas:
- ### Éxito (201 Created) ** : La solicitud de agregar el nuevo producto fue exitosa. El servidor responderá con un estado 201 Created y, posiblemente, con detalles adicionales sobre el producto recién creado.
- ### Error de Autenticación (401 Unauthorized): Si la validación del token falla, el servidor responderá con un estado 401 Unauthorized, indicando que la acción no está autorizada.
+ #### Éxito (201 Created)  : La solicitud de agregar el nuevo producto fue exitosa. El servidor responderá con un estado 201 Created y, posiblemente, con detalles adicionales sobre el producto recién creado.
+ #### Error de Autenticación (401 Unauthorized): Si la validación del token falla, el servidor responderá con un estado 401 Unauthorized, indicando que la acción no está autorizada.
 
 ## POST /marcas:
 Se permite agregar una nueva marca. Esta accion se realiza mediante el BODY de POSTMAN.
 
 ## PUT
-- PUT /productos/:ID : Se permite actualizar un producto mediante su ID. Esta accion se realiza mediante el BODY de POSTMAN.
-- PUT /marcas/:ID : Se permite actualizar una marca mediante su ID. Esta accion se realiza mediante el BODY de POSTMAN.
+## PUT /productos/:ID : 
+Se permite actualizar un producto mediante su ID. Esta accion se realiza mediante el BODY de POSTMAN.
+### Parámetros del Cuerpo (BODY):
+
+Se deben proporcionar los detalles del nuevo producto en el cuerpo de la solicitud en formato JSON.
+
+**Ejemplo del cuerpo de la solicitud:**
+
+```json
+{
+  "NombreProducto": "Nuevo Producto",
+  "Descripcion": "Descripción del nuevo producto",
+  "Precio": 99.99,
+  "Stock": 50,
+  "IDmarca": 10,
+  "Condicion": "nuevo"
+}
+```
+
+ ## PUT /marcas/:ID :
+ Se permite actualizar una marca mediante su ID. Esta accion se realiza mediante el BODY de POSTMAN.
 
 ## DELETE
-- DELETE /productos/:ID : Se permite eliminar un producto mediante su ID.
+## DELETE /productos/:ID : 
+Se permite eliminar un producto mediante su ID.
+### Ejemplo de Uso:
+```plaintext
+ /productos/51
+```
